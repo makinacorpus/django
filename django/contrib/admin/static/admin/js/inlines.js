@@ -116,6 +116,7 @@
 				if (options.added) {
 					options.added(row);
 				}
+				$(document).trigger('formset_add.admin', [row[0]]);
 				return false;
 			});
 		}
