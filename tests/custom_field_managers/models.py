@@ -2,7 +2,12 @@
 Custom manager for relationship fields.
 
 Using the ``manager`` and ``reverse_manager`` when creating a ForeignKey, you can
-choose custom managers used for forward and reverse relationship.
+choose custom managers used for direct and reverse relationship.
+
+Note: You will rarely need to define a custom ``manager`` for a ForeignKey,
+      execept when you want to filter out the queryset that will be
+      used to retrieve the related object.
+
 """
 
 from __future__ import unicode_literals
