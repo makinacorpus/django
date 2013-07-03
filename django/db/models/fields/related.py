@@ -265,7 +265,7 @@ class ReverseSingleRelatedObjectDescriptor(six.with_metaclass(RenameRelatedObjec
 
     def get_queryset(self, **db_hints):
         db = router.db_for_read(self.field.rel.to, **db_hints)
-        
+
         if hasattr(self, 'manager'):
             return self.manager.using(db)
 
