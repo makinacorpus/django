@@ -1,12 +1,8 @@
 """
-23. Giving models a custom manager
+Custom manager for relationship fields.
 
-You can use a custom ``Manager`` in a particular model by extending the base
-``Manager`` class and instantiating your custom ``Manager`` in your model.
-
-There are two reasons you might want to customize a ``Manager``: to add extra
-``Manager`` methods, and/or to modify the initial ``QuerySet`` the ``Manager``
-returns.
+Using the ``manager`` and ``reverse_manager`` when creating a ForeignKey, you can
+choose custom managers used for forward and reverse relationship.
 """
 
 from __future__ import unicode_literals
