@@ -948,11 +948,12 @@ class ForeignObject(RelatedField):
                 limit_choices_to=kwargs.pop('limit_choices_to', None),
                 parent_link=kwargs.pop('parent_link', False),
                 on_delete=kwargs.pop('on_delete', CASCADE),
+            )
+
+        kwargs['verbose_name'] = kwargs.get('verbose_name', None)
+
         self.manager = kwargs.pop('manager', None)
         self.reverse_manager = kwargs.pop('reverse_manager', None)
-
-            )
-        kwargs['verbose_name'] = kwargs.get('verbose_name', None)
 
         super(ForeignObject, self).__init__(**kwargs)
 
