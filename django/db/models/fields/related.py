@@ -1119,14 +1119,14 @@ class ForeignObject(RelatedField):
     def contribute_to_class(self, cls, name, virtual_only=False):
         super(ForeignObject, self).contribute_to_class(cls, name, virtual_only=virtual_only)
 
-        setattr(cls, self.name, ReverseSingleRelatedObjectDescriptor(self, self.reverse_manager))
+        setattr(cls, self.name, ReverseSingleRelatedObjectDescriptor(self, self.manager))
 
     def contribute_to_related_class(self, cls, related):
         # Internal FK's - i.e., those with a related name ending with '+' -
         # and swapped models don't get a related descriptor.
         if not self.rel.is_hidden() and not related.model._meta.swapped:
 
-            setattr(cls, related.get_accessor_name(), ForeignRelatedObjectsDescriptor(related, self.manager))
+            setattr(cls, related.get_accessor_name(), ForeignRelatedObjectsDescriptor(related, self.reverse_manager))
             if self.rel.limit_choices_to:
                 cls._meta.related_fkey_lookups.append(self.rel.limit_choices_to)
 
