@@ -34,7 +34,7 @@ class Author(models.Model):
 @python_2_unicode_compatible
 class Article(models.Model):
     name = models.CharField(max_length=30)
-    author = models.ForeignKey(Author, manager=DeletedManager, reverse_manager=ArticlesManager, related_name='articles')
+    author = models.ForeignKey(Author, manager_class=DeletedManager, reverse_manager_class=ArticlesManager, related_name='articles')
 
     def __str__(self):
         return self.name
