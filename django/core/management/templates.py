@@ -53,7 +53,12 @@ class TemplateCommand(BaseCommand):
                     action='append', default=[],
                     help='The file name(s) to render. '
                          'Separate multiple extensions with commas, or use '
-                         '-n multiple times.')
+                         '-n multiple times.'),
+        make_option('--extra-context', '-c', dest='extra_context',
+                    action='append', default=[],
+                    help='Extra context to pass to template files to render. '
+                         'Must be "variable_name=value". '
+                         'You can use that option multiple times.'),
         )
     requires_model_validation = False
     # Can't import settings during this command, because they haven't
@@ -110,7 +115,9 @@ class TemplateCommand(BaseCommand):
         else:
             docs_version = '%d.%d' % django.VERSION[:2]
 
-        context = Context(dict(options, **{
+        extra_context = dict(map(lambda a: a.split('=', 1), options['extra_context']))
+
+        context = Context(dict(extra_context, **{
             base_name: name,
             base_directory: top_dir,
             'docs_version': docs_version,
