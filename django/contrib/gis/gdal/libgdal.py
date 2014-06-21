@@ -28,13 +28,19 @@ if lib_names:
         lib_path = find_library(lib_name)
         if not lib_path is None: break
         
-if lib_path is None:
-    raise OGRException('Could not find the GDAL library (tried "%s"). '
-                       'Try setting GDAL_LIBRARY_PATH in your settings.' % 
-                       '", "'.join(lib_names))
+try:
+    # This loads the GDAL/OGR C library
+    if lib_path:
+        lgdal = CDLL(lib_path)
+    else:
+        lgdal = CDLL('libgdal.so')
+except:
+    lgdal = None
 
-# This loads the GDAL/OGR C library
-lgdal = CDLL(lib_path)
+if lgdal is None:
+    raise OGRException('Could not find the GDAL library (tried "%s"). '
+                       'Try setting GDAL_LIBRARY_PATH in your settings.' %
+                       '", "'.join(lib_names))
 
 # On Windows, the GDAL binaries have some OSR routines exported with 
 # STDCALL, while others are not.  Thus, the library will also need to 

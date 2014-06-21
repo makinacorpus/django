@@ -20,7 +20,10 @@ def create_lang(db_name, verbosity=1):
     options = get_cmd_options(db_name)
 
     # Constructing the 'createlang' command.
-    createlang_cmd = 'createlang %splpgsql' % options
+    try:
+        createlang_cmd = '%s %splpgsql' % (settings.POSTGRES_CREATELANG_PATH, options)
+    except AttributeError:
+        createlang_cmd = 'createlang %splpgsql' % options
     if verbosity >= 1: print createlang_cmd
 
     # Must have database super-user privileges to execute createlang -- it must
@@ -191,8 +194,12 @@ def load_postgis_sql(db_name, verbosity=1):
         raise Exception('Could not find PostGIS spatial reference system definitions in %s' % srefsys_file)
 
     # Getting the psql command-line options, and command format.
+    try:
+        psql_cmd = settings.POSTGRES_PSQL_PATH
+    except AttributeError:
+        psql_cmd = 'psql'
     options = get_cmd_options(db_name)
-    cmd_fmt = 'psql %s-f "%%s"' % options
+    cmd_fmt = '%s %s-f "%%s"' % (psql_cmd, options)
 
     # Now trying to load up the PostGIS functions
     cmd = cmd_fmt % lwpostgis_file

@@ -403,7 +403,8 @@ class BaseModelFormSet(BaseFormSet):
             obj = existing_objects[form.cleaned_data[self._pk_field.name]]
             if self.can_delete and form.cleaned_data[DELETION_FIELD_NAME]:
                 self.deleted_objects.append(obj)
-                obj.delete()
+                if commit:
+                    obj.delete()
             else:
                 if form.changed_data:
                     self.changed_objects.append((obj, form.changed_data))

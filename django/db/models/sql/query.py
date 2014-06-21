@@ -559,7 +559,7 @@ class BaseQuery(object):
             # this is the only reference.
             if alias not in self.alias_map or self.alias_refcount[alias] == 1:
                 connector = not first and ', ' or ''
-                result.append('%s%s' % (connector, qn(alias)))
+                result.append('%s%s' % (connector, alias))
                 first = False
         return result, []
 
