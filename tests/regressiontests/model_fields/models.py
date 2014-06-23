@@ -66,6 +66,9 @@ class BooleanModel(models.Model):
     bfield = models.BooleanField()
     string = models.CharField(max_length=10, default='abc')
 
+class IP(models.Model):
+    ip = models.IPAddressField(blank=True, null=True)
+
 ###############################################################################
 # ImageField
 

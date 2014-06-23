@@ -917,6 +917,11 @@ class IPAddressField(Field):
         kwargs['max_length'] = 15
         Field.__init__(self, *args, **kwargs)
 
+    def get_db_prep_value(self, value, connection, prepared=False):
+        if not prepared:
+            value = self.get_prep_value(value)
+        return value or None
+
     def get_internal_type(self):
         return "IPAddressField"
 

@@ -7,7 +7,7 @@ from django import forms
 from django.db import models
 from django.core.exceptions import ValidationError
 
-from models import Foo, Bar, Whiz, BigD, BigS, Image, BigInt, Post, NullBooleanModel, BooleanModel
+from models import Foo, Bar, Whiz, BigD, BigS, Image, BigInt, Post, NullBooleanModel, BooleanModel, IP
 
 # If PIL available, do these tests.
 if Image:
@@ -214,6 +214,14 @@ class SlugFieldTests(django.test.TestCase):
         bs = BigS.objects.get(pk=bs.pk)
         self.assertEqual(bs.s, 'slug'*50)
 
+class IPFieldTests(django.test.TestCase):
+    def test_ip_empty(self):
+        """
+        Check it's possible to use empty values in IP field (#5622).
+        """
+        ip = IP.objects.create(ip="")
+        ip = IP.objects.get(pk=ip.pk)
+        self.assertEqual(ip.ip, None)
 
 class ValidationTest(django.test.TestCase):
     def test_charfield_raises_error_on_empty_string(self):
